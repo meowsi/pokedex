@@ -1,0 +1,68 @@
+version: "3.3"
+services:
+    laravel: #Cria microserviço chamado laravel
+        build: ./backend #Builda a imagem usando o arquivo Dockerfile no diretório backend
+        container_name: microservice_laravel
+        ports: #Mapeia a porta 9002 para a porta 80
+            - 9002:80
+        volumes: #Compartilha o volume entre a maquina e o container para refletir as mudanças em ambos
+            - ./backend:/usr/share/nginx/html
+        restart: always #Reinicia o container caso encontre um problema
+        depends_on:
+            - db
+        networks: #Define que o serviço faz parte de uma rede chamada docker
+            - docker
+
+    db:
+        image: mysql
+        container_name: database_mysql
+        restart: always
+        ports:
+            - 3306:3306
+        environment:
+            MYSQL_ROOT_PASSWORD: grupo3
+            MYSQL_USER: grupo3
+            MYSQL_PASSWORD: grupo3
+            MYSQL_DATABASE: grupo3
+        volumes:
+            - ./mysql-database:/var/lib/mysql
+        networks: #Define que o serviço faz parte de uma rede chamada docker
+            - docker
+
+    react:
+        build: ./frontend
+        container_name: frontend_react
+        ports:
+            - 3000:3000
+        tty: true
+        volumes:
+            - ./frontend:/app
+        restart: always
+        depends_on:
+            - db
+            - laravel
+        networks: #Define que o serviço faz parte de uma rede chamada docker
+            - docker
+
+    rabbitmq:
+        hostname: rabbitmq
+        container_name: broker_rabbitmq
+        image: rabbitmq:3-management
+        environment:
+            RABBITMQ_DEFAULT_USER: grupo3
+            RABBITMQ_DEFAULT_PASS: grupo3
+            RABBITMQ_USER: grupo3
+            RABBITMQ_PASSWORD: grupo3
+        ports:
+            - 5672:5672
+            - 15672:15672
+        restart: always
+        depends_on:
+            - db
+            - laravel
+        networks: #Define que o serviço faz parte de uma rede chamada docker
+            - docker
+
+networks:
+    docker:
+        driver: bridge

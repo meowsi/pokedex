@@ -1,0 +1,61 @@
+.App {
+  display: flex;
+  flex-flow: column nowrap;
+  text-align: center;
+  background: url('./pokemon-background.jpg');
+  height: 100vh;
+  font-family:'Courier New', Courier, monospace;
+}
+
+.Container {
+  flex-direction: column;
+  margin: 30px;
+  padding: 20px;
+  display: flex;
+  border-radius: 20px;
+  border: 2px solid darkgray;
+  background-color: white;
+}
+
+.Name {
+  font-size: 30px;
+  width: 100%;
+  font-weight: bold;
+}
+
+.Info {
+  font-size: 18px;
+  width: 100%;
+  text-align: right;
+}
+
+.Type {
+  font-size: 14px;
+  width: 100px;
+  margin: 0 auto;
+  margin-bottom: 20px;
+}
+
+.electric {
+  background-color: yellow;
+}
+
+.grass {
+  background-color: green;
+}
+
+.fire {
+  background-color: darkorange;
+}
+
+.water {
+  background-color: lightskyblue;
+}
+
+.psychic {
+  background-color: palevioletred;
+}
+
+ul {
+  padding: 0;
+}
